@@ -1,5 +1,5 @@
 一、页面效果
-![image](https://github.com/ZhengYaWei1992/ZWProgressView/blob/master/Untitled3.gif)
+![image](https://github.com/zhangyxhuomu/Data-visualization-3d/tree/master/three-3d/three-3d/img/show.gif)
 二、技术选择
 中间的建筑相关的显示和效果都是threejs实现的
 左右两侧用的是echarts
