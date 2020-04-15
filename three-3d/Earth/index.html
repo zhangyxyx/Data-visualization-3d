@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link href="./css/index.css" rel="stylesheet">
+	<script type="text/javascript" src="./js/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/three.min.js"></script>
+	<script type="text/javascript" src="./js/THREE.MeshLine.js"></script>
+	<script type="text/javascript" src="./js/OrbitControls.js"></script>
+</head>
+
+<body>
+	<ul id="three-lite">
+		<li>北京 -> 莫斯科</li>
+		<li>北京 -> 华盛顿</li>
+		<li>北京 -> 堪培拉</li>
+		<li>北京 -> 巴西利亚</li>
+		<li>北京 -> 开普敦</li>
+		<li>北京 -> 伦敦</li>
+		<li>北京 -> 东京</li>
+		<li>北京 -> 首尔</li>
+		<li>北京 -> 新德里</li>
+		<li>北京 -> 曼谷</li>
+		<li>北京 -> 巴黎</li>
+		<li>北京 -> 开罗</li>
+		<li>北京 -> 惠灵顿</li>
+		<li>北京 -> 渥太华</li>
+	</ul>
+	<div id="three-frame"></div>
+</body>
+<script>
+	// 渲染器
+	var renderer = null;
+	// 相机
+	var camera = null;
+	// 场景
+	var scene = null;
+	// 包裹画布dom
+	var dom = document.getElementById("three-frame");
+	// 地球对象
+	var earthBall = null;
+	// 标记点集合对象
+	var marking = null;
+	// 标记位置对象
+	var markingPos = null;
+	// 地球大小
+	var earthBallSize = 30;
+	// 地球贴图
+	var earthImg = './image/earth_bg.jpg';
+	// 迁徙路径分段数
+	var metapNum = 150;
+	// 迁徙路径标记分段数
+	var markingNum = 50;
+	// 轨迹线条颜色
+	var metapLineColor = 'rgb(27, 180, 176)';
+	// 球上标记点大小
+	var dotWidth = 0.5;
+	// 球上标记点颜色
+	var dotColor = '#1bb4b0';
+	// 轨迹上运动的球大小
+	var slideBallSize = 0.2;
+	// 轨迹上运动的球颜色
+	var slideBallColor = 'rgb(27, 180, 176)';
+	// 获取标记地点信息
+	var getMarkingPos = function () {
+		$.ajax({
+			type: "GET", //提交方式 
+			url: "./code/marking-pos.json",
+			async: false,
+			success: function (response) {//返回数据根据结果进行相应的处理 
+				markingPos = response;
+			}
+		})
+	}
+	// 经纬度转换函数
+	var getPosition = function (longitude, latitude, radius) {
+		var lg = THREE.Math.degToRad(longitude);
+		var lt = THREE.Math.degToRad(latitude);
+		var temp = radius * Math.cos(lt);
+		var x = temp * Math.sin(lg);
+		var y = radius * Math.sin(lt);
+		var z = temp * Math.cos(lg);
+		return {
+			x: x,
+			y: y,
+			z: z
+		}
+	}
+	// 计算球体上两个点的中点
+	var getVCenter = function (v1, v2) {
+		var v = v1.add(v2);
+		return v.divideScalar(2);
+	}
+	// 计算球体两点向量固定长度的点
+	var getLenVcetor = function (v1, v2, len) {
+		var v1v2Len = v1.distanceTo(v2);
+		return v1.lerp(v2, len / v1v2Len);
+	}
+	// 添加轨迹函数
+	var addLine = function (v0, v3) {
+		var angle = (v0.angleTo(v3) * 180) / Math.PI;
+		var aLen = angle * 0.5 * (1 - angle / (Math.PI * 90));
+		var hLen = angle * angle * 1.2 * (1 - angle / (Math.PI * 90));
+		var p0 = new THREE.Vector3(0, 0, 0);
+		// 法线向量
+		var rayLine = new THREE.Ray(p0, getVCenter(v0.clone(), v3.clone()));
+		// 顶点坐标
+		var vtop = rayLine.at(hLen / rayLine.at(1).distanceTo(p0));
+		// 控制点坐标
+		var v1 = getLenVcetor(v0.clone(), vtop, aLen);
+		var v2 = getLenVcetor(v3.clone(), vtop, aLen);
+		// 绘制贝塞尔曲线
+		var curve = new THREE.CubicBezierCurve3(v0, v1, v2, v3);
+		var geometry = new THREE.Geometry();
+		geometry.vertices = curve.getPoints(100);
+		var line = new MeshLine();
+		line.setGeometry(geometry);
+		var material = new MeshLineMaterial({
+			color: metapLineColor,
+			lineWidth: 0.1,
+			transparent: true,
+			opacity: 1
+		})
+		return {
+			curve: curve,
+			lineMesh: new THREE.Mesh(line.geometry, material)
+		}
+	}
+	// 执行函数
+	var render = function () {
+		scene.rotation.y -= 0.01;
+		renderer.render(scene, camera);
+		orbitcontrols.update();
+		requestAnimationFrame(render);
+	}
+	// 初始化函数
+	var initThree = function () {
+		// 初始化场景
+		scene = new THREE.Scene();
+		// 初始化相机
+		camera = new THREE.PerspectiveCamera(20, dom.clientWidth / dom.clientHeight, 1, 100000);
+		// 设置相机位置
+		camera.position.set(0, 0, 200);
+		renderer = new THREE.WebGLRenderer({
+			alpha: true,
+			antialias: true
+		});
+		// 设置窗口尺寸
+		renderer.setSize(dom.clientWidth, dom.clientHeight);
+		// 初始化控制器
+		orbitcontrols = new THREE.OrbitControls(camera, renderer.domElement);
+		dom.appendChild(renderer.domElement);
+		// 设置光线
+		scene.add(new THREE.HemisphereLight('#ffffff', '#ffffff', 1));
+		// 定义地球材质
+		var earthTexture = THREE.ImageUtils.loadTexture(earthImg, {}, function () {
+			renderer.render(scene, camera);
+		});
+		// 创建地球
+		earthBall = new THREE.Mesh(new THREE.SphereGeometry(earthBallSize, 50, 50), new THREE.MeshBasicMaterial({
+			map: earthTexture
+		}));
+		scene.add(earthBall);
+		// 标记点组合
+		marking = new THREE.Group();
+		// 将标记点添加到地球上
+		markingPos.marking.forEach(function (markingItem) {
+			// 创建标记点球体
+			var ball = new THREE.Mesh(new THREE.SphereGeometry(dotWidth, 30, 30), new THREE.MeshBasicMaterial({
+				color: dotColor
+			}));
+			// 获取标记点坐标
+			var ballPos = getPosition(markingItem.pos[0] + 90, markingItem.pos[1], earthBallSize);
+			ball.position.set(ballPos.x, ballPos.y, ballPos.z);
+			marking.add(ball);
+		})
+		scene.add(marking);
+		var animateDots = [];
+		// 线条对象集合
+		var groupLines = new THREE.Group();
+		// 线条
+		marking.children.forEach(function (item) {
+			var line = addLine(marking.children[0].position, item.position);
+			groupLines.add(line.lineMesh);
+			animateDots.push(line.curve.getPoints(metapNum));
+		})
+		scene.add(groupLines);
+		// 线上滑动的小球
+		var aGroup = new THREE.Group();
+		for (var i = 0; i < animateDots.length; i++) {
+			for (var j = 0; j < markingNum; j++) {
+				var aGeo = new THREE.SphereGeometry(slideBallSize, 10, 10);
+				var aMaterial = new THREE.MeshBasicMaterial({
+					color: slideBallColor,
+					transparent: true,
+					opacity: 1 - j * 0.02
+				})
+				var aMesh = new THREE.Mesh(aGeo, aMaterial);
+				aGroup.add(aMesh);
+			}
+		}
+		var vIndex = 0;
+		var firstBool = true;
+		function animationLine() {
+			aGroup.children.forEach(function (elem, index) {
+				var _index = parseInt(index / markingNum);
+				var index2 = index - markingNum * _index;
+				var _vIndex = 0;
+				if (firstBool) {
+					_vIndex = vIndex - index2 % markingNum >= 0 ? vIndex - index2 % markingNum : 0;
+				} else {
+					_vIndex = vIndex - index2 % markingNum >= 0 ? vIndex - index2 % markingNum : metapNum + vIndex - index2;
+				}
+				var v = animateDots[_index][_vIndex];
+				elem.position.set(v.x, v.y, v.z);
+			})
+			vIndex++;
+			if (vIndex > metapNum) {
+				vIndex = 0;
+			}
+			if (vIndex == metapNum && firstBool) {
+				firstBool = false;
+			}
+			requestAnimationFrame(animationLine);
+		}
+		scene.add(aGroup);
+		animationLine();
+		// 渲染
+		render();
+	}
+	// 页面资源加载完全执行函数
+	window.onload = function () {
+		getMarkingPos();
+		initThree();
+	}
+	// 窗口resize事件
+	window.onresize = function () {
+		// 重新初始化尺寸
+		camera.aspect = dom.clientWidth / dom.clientHeight;
+		camera.updateProjectionMatrix();
+		renderer.setSize(dom.clientWidth, dom.clientHeight)
+	}
+</script>
+
+</html>

@@ -1,0 +1,105 @@
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,a,img,p,span,i,em,b,strong,br,hr,form,input,select,label,button,table,thead,tbody,tfoot,th,td,iframe,figure,figcaption,abbr,acronym,address,caption,cite,dfn,var,del,pre,code,caption,fieldset,legend,blockquote,details,hgroup,menu,sub,sup,ins,header,nav,aside,section,aside,footer,figure,meter,progress,time,audio,source,video,command,datalist,details,canvas,embed,hgroup,keygen,mark,output,ruby{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+::-webkit-scrollbar{width: 5px;height: 5px;}
+::-webkit-scrollbar-thumb{border-radius: 10px;-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,1);background-color:rgba(0, 0, 0, 0.8); }
+::-webkit-scrollbar-track{-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,1);border-radius: 0;background: rgba(255,255,255,.7);}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background: #000 url(../image/starry_sky_bg.jpg) no-repeat center center;
+    overflow: hidden;
+}
+#three-lite{
+	list-style: none;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 150px;
+	height: 100%;
+	overflow: auto;
+}
+#three-lite li{
+	padding-left: 10px;
+	color: #fff;
+	line-height: 30px;
+}
+.code-frame{
+	position: fixed;
+	right: -800px;
+	top: 0;
+	width: 800px;
+	height: 100%;
+	background: rgba(0,0,0,0.5);
+	transition: all 0.3s;
+}
+.code-frame.on{
+	right: 0;
+	transition: all 0.3s;
+}
+.code-operate{
+	position: absolute;
+	width: 32px;
+	height: 64px;
+	line-height: 64px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 24px;
+	color: #fff;
+	left:-32px;
+	top:50%;
+	margin-top: -32px;
+	background: rgba(0,0,0,0.5);
+	cursor: pointer;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+.code-content{
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+}
+#code-content{
+	width: 100%;
+	height: 100%;
+}
+.code-operate:hover{
+	background: rgba(0,0,0,0.8);
+}
+.ace-monokai{
+	background-color: rgba(0,0,0,0.5) !important;
+}
+.ace-monokai .ace_gutter{
+	background: rgba(0,0,0,0.7) !important;
+}
+.ace_fold-widget, .ace_info, .ace_error, .ace_text-input, .ace_warning{
+	background-image: none !important;
+}
+.download-frame{
+	position: absolute;
+	top: 0;
+	left: 50%;
+	margin-left: -80px;
+	width: 160px;
+	height: 50px;
+	background: rgba(0,0,0,0.5);
+	cursor: pointer;
+	color: #fff;
+	font-size: 16px;
+	line-height: 50px;
+	text-align: center;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	text-decoration: none;
+}
+.download-frame:hover{
+	background: rgba(0,0,0,0.8);
+	color: #0268CA;
+}
+#three-frame {
+    width: 100%;
+    height: 100%;
+}

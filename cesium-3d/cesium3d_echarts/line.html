@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    
+    <link rel="stylesheet" href="../../cesium-3d/assets/lib/Cesium/Widgets/widgets.css">
+    <link rel="stylesheet" href="./css/index.css">
+  </head>
+  <body>
+    <div id="cesium-logo"></div>
+    <div id="cesiumContainer" style="background:url(./data/bg.png)"></div>
+    <iframe src="Online map echarts/index.html" style="display:none;widtH:100%;height:100%"></iframe>
+
+    <div class="leftchart"></div>
+    <div class="rightchart"></div>
+    <div class="menu" style="cursor:pointer">智慧城市</div>
+    <div id="loadingOverlay"><h1>Loading...</h1></div>
+    <div id="toolbar"></div>
+    <script type="text/javascript" src="../../cesium-3d/assets/lib/Cesium/Cesium.js"></script>
+    <script type="text/javascript" src="../../cesium-3d/assets/lib/echarts-all-4.js"></script>
+    <script type="text/javascript" src="../../cesium-3d/assets/lib/Cesium/viewerCesiumNavigationMixin.js"></script>
+    
+    <script type="text/javascript" src="./js/FlowEcharts.js"></script>
+    <script type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="./js/earth.js"></script>
+  </body>
+</html>

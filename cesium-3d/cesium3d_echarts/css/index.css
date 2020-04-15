@@ -1,0 +1,64 @@
+html, body {
+    display: block;
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #cesiumContainer {
+    height: 100%;
+  }
+  .menu{
+    width:120px;
+    height:40px;
+    line-height:40px;
+    text-align:center;
+    font-size:14px;
+    background:url('../img/menu.png') no-repeat;
+    background-size:100% 100%;
+    color:rgb(0,255,255);
+    position:absolute;
+    left:30px;
+    bottom:40px;
+  }
+  .leftchart{
+    width:300px;
+    position:absolute;
+    top:0px;
+    left:10px;
+  }
+  .leftchart .topchart{
+    width:100%;
+    height:200px;
+    margin-top:30px;
+    background:url('../img/leftright.png') no-repeat;
+    background-size:100% 100%;
+  }
+  .leftchart .bottomchart{
+    width:100%;
+    height:200px;
+    margin-top:30px;
+    background:url('../img/leftright.png') no-repeat;
+    background-size:100% 100%;
+  }
+  
+  .rightchart{
+    width:300px;
+    position:absolute;
+    top:0px;
+    right:10px;
+  }
+  .rightchart .topchart{
+    width:100%;
+    height:200px;
+    margin-top:30px;
+    background:url('../img/leftright.png') no-repeat;
+    background-size:100% 100%;
+  }
+  .rightchart .bottomchart{
+    width:100%;
+    height:200px;
+    margin-top:30px;
+    background:url('../img/leftright.png') no-repeat;
+    background-size:100% 100%;
+  }

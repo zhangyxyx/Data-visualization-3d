@@ -1,0 +1,94 @@
+{
+	"marking": [
+	    {
+			"textValue": "中国首都-北京",
+	    	"fontColor": "#c6aa0e",
+	    	"fontSize": 14,
+	    	"pos": [116.4551,40.1439]
+		},
+		{
+			"textValue": "俄罗斯首都-莫斯科",
+	    	"fontColor": "#86a519",
+	    	"fontSize": 14,
+	    	"pos": [37.35,55.45]
+		},
+		{
+			"textValue": "美国首都-华盛顿",
+	    	"fontColor": "#05a914",
+	    	"fontSize": 14,
+	    	"pos": [-77.02182,38.53707]
+		},
+		{
+			"textValue": "澳大利亚首都-堪培拉",
+	    	"fontColor": "#05a914",
+	    	"fontSize": 14,
+	    	"pos": [149.07,-35.17]
+		},
+		{
+			"textValue": "巴西首都-巴西利亚",
+	    	"fontColor": "#af0da9",
+	    	"fontSize": 14,
+	    	"pos": [-47.56,-15.47]
+		},
+		{
+			"textValue": "南非首都-开普敦",
+	    	"fontColor": "#047f4f",
+	    	"fontSize": 14,
+	    	"pos": [18,-34]
+		},
+		{
+			"textValue": "英国首都-伦敦",
+	    	"fontColor": "#ffffff",
+	    	"fontSize": 14,
+	    	"pos": [0.5, 51.3]
+		},
+		{
+			"textValue": "日本首都-东京",
+	    	"fontColor": "#ffffff",
+	    	"fontSize": 14,
+	    	"pos": [139.6932, 35.6898]
+		},
+		{
+			"textValue": "韩国首都-首尔",
+	    	"fontColor": "#ffffff",
+	    	"fontSize": 14,
+	    	"pos": [126.58, 37.38]
+		},
+		{
+			"textValue": "印度首都-新德里",
+	    	"fontColor": "#ffffff",
+	    	"fontSize": 14,
+	    	"pos": [77.13, 28.37]
+		},
+		{
+			"textValue": "泰国首都-曼谷",
+	    	"fontColor": "#ffffff",
+	    	"fontSize": 14,
+	    	"pos": [100.31, 13.45]
+		},
+		{
+			"textValue": "法国首都-巴黎",
+	    	"fontColor": "#ffffff",
+	    	"fontSize": 14,
+	    	"pos": [2.174203, 48.522552]
+		},
+		{
+			"textValue": "埃及首都-开罗",
+	    	"fontColor": "#ffffff",
+	    	"fontSize": 14,
+	    	"pos": [31, 30]
+		},
+		{
+			"textValue": "新西兰首都-惠灵顿",
+	    	"fontColor": "#ffffff",
+	    	"fontSize": 14,
+	    	"pos": [176.463425, -41.171228]
+		},
+		{
+			"textValue": "加拿大首都-渥太华",
+	    	"fontColor": "#ffffff",
+	    	"fontSize": 14,
+	    	"pos": [-75.43, 45.25]
+		}
+	]
+}
