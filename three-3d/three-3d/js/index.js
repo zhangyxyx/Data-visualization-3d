@@ -80,7 +80,7 @@ $(function () {
         requestAnimationFrame(render);
         renderer.render(scene, camera)
         var textureLoader = new THREE.TextureLoader();
-        var texture = textureLoader.load("./img/cude1.png");
+        var texture = textureLoader.load("./img/cude2.png");
         texture.offset.x -= 0.06
         if (progress > 1.0) {
             circleP.position.set(-150, 2, -280);
@@ -153,7 +153,7 @@ $(function () {
     function cube() {
         for (let i = 0; i < 30; i++) {
             var loader = new THREE.TextureLoader();
-            loader.load("./img/cude1.png", (texture) => {
+            loader.load("./img/cude2.png", (texture) => {
                 var geometry = new THREE.BoxGeometry(30, 5, 20);
                 var material = new THREE.MeshBasicMaterial({ color: 0x739783, map: texture });
                 buildArr[i] = new THREE.Mesh(geometry, material);
@@ -165,7 +165,7 @@ $(function () {
         }
         //顶部
         var loader = new THREE.TextureLoader();
-        loader.load("./img/cude1.png", (texture) => {
+        loader.load("./img/cude2.png", (texture) => {
             var geometry = new THREE.BoxGeometry(20, 5, 20);
             var material = new THREE.MeshBasicMaterial({ color: 0x739783, map: texture });
             buildtop1 = new THREE.Mesh(geometry, material);
@@ -175,7 +175,7 @@ $(function () {
             scene.add(buildtop1);
         })
         var loader = new THREE.TextureLoader();
-        loader.load("./img/cude1.png", (texture) => {
+        loader.load("./img/cude2.png", (texture) => {
             var geometry = new THREE.BoxGeometry(15, 5, 20);
             var material = new THREE.MeshBasicMaterial({ color: 0x739783, map: texture });
             buildtop2 = new THREE.Mesh(geometry, material);
@@ -185,7 +185,7 @@ $(function () {
             scene.add(buildtop2);
         })
         var loader = new THREE.TextureLoader();
-        loader.load("./img/cude1.png", (texture) => {
+        loader.load("./img/cude2.png", (texture) => {
             var geometry = new THREE.BoxGeometry(10, 5, 20);
             var material = new THREE.MeshBasicMaterial({ color: 0x739783, map: texture });
             buildtop3 = new THREE.Mesh(geometry, material);
@@ -195,7 +195,7 @@ $(function () {
             scene.add(buildtop3);
         })
         var loader = new THREE.TextureLoader();
-        loader.load("./img/cude1.png", function (texture) {
+        loader.load("./img/cude2.png", function (texture) {
             var geometry = new THREE.ConeBufferGeometry(5, 10, 32);
             var material = new THREE.MeshBasicMaterial({ color: 0x739783, map: texture });
             buildtop4 = new THREE.Mesh(geometry, material);
