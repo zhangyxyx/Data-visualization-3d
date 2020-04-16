@@ -1,6 +1,8 @@
-# 3D-Earth-Implementation
-各种实现3D地球的放大和延伸
-cesium
-
-# cesium-3d
-内容：3D地球可以点击城市可以切换到城市 并且3D地球有相关城市连线
+# Data-visualization-3d
+3d数据可视化
+## cesium-3d
+cesium主要实现地理3d(比如 地球)
+## echarts-3d
+echarts目前也是关注3d地球的实现
+## three-3d
+地球和3d城市
