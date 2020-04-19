@@ -14,7 +14,8 @@ $(function () {
         code4.position.y = 40
     })
 
-    var progress = 0;
+    var progress1 = 0;
+    var progress2 = 0;
     var camera, scene, renderer, orbitControls, clock, delta;
     var buildArr = [
         'build1', 'build2', 'build3', 'build4', 'build5', 'build6', 'build7', 'build8', 'build9', 'build10',
@@ -23,17 +24,35 @@ $(function () {
         'build31', 'build32', 'build33', 'build34', 'build35', 'build36', 'build37', 'build38', 'build39', 'build40',
         'build41', 'build42', 'build43', 'build44', 'build45', 'build46', 'build47', 'build48', 'build49', 'build50',
     ]
+    var buildArr1 = [
+        'build_1_1', 'build_1_2', 'build_1_3', 'build_1_4', 'build_1_5', 'build_1_6', 'build_1_7', 'build_1_8', 'build_1_9', 'build_1_10',
+        'build_1_11', 'build_1_12', 'build_1_13', 'build_1_14', 'build_1_15', 'build_1_16', 'build_1_17', 'build_1_18', 'build_1_19', 'build_1_20',
+        'build_1_21', 'build_1_22', 'build_1_23', 'build_1_24', 'build_1_25', 'build_1_26', 'build_1_27', 'build_1_28', 'build_1_29', 'build_1_30',
+        'build_1_31', 'build_1_32', 'build_1_33', 'build_1_34', 'build_1_35', 'build_1_36', 'build_1_37', 'build_1_38', 'build_1_39', 'build_1_40',
+        'build_1_41', 'build_1_42', 'build_1_43', 'build_1_44', 'build_1_45', 'build_1_46', 'build_1_47', 'build_1_48', 'build_1_49', 'build_1_50',
+    ]
+    var buildArr2 = [
+        'build_2_1', 'build_2_2', 'build_2_3', 'build_2_4', 'build_2_5', 'build_2_6', 'build_2_7', 'build_2_8', 'build_2_9', 'build_2_10',
+        'build_2_11', 'build_2_12', 'build_2_13', 'build_2_14', 'build_2_15', 'build_2_16', 'build_2_17', 'build_2_18', 'build_2_19', 'build_2_20',
+        'build_2_21', 'build_2_22', 'build_2_23', 'build_2_24', 'build_2_25', 'build_2_26', 'build_2_27', 'build_2_28', 'build_2_29', 'build_2_30',
+        'build_2_31', 'build_2_32', 'build_2_33', 'build_2_34', 'build_2_35', 'build_2_36', 'build_2_37', 'build_2_38', 'build_2_39', 'build_2_40',
+        'build_2_41', 'build_2_42', 'build_2_43', 'build_2_44', 'build_2_45', 'build_2_46', 'build_2_47', 'build_2_48', 'build_2_49', 'build_2_50',
+    ]
     //管道
-    var curve = new THREE.CatmullRomCurve3([
+    var curve1 = new THREE.CatmullRomCurve3([
         new THREE.Vector3(-150, 2, -280),
         new THREE.Vector3(-110, 2, -50),
         new THREE.Vector3(-10, 2, 0),
         new THREE.Vector3(100, 2, 100),
         new THREE.Vector3(140, 2, 200)
     ], false/*是否闭合*/);
+    var curve2 = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(-300, 2, 30),
+        new THREE.Vector3(300, 2, 0),
+    ], false/*是否闭合*/);
 
     var buildtop1; var buildtop2; var buildtop3; var buildtop4
-    var geometryP
+    var geometryP1,geometryP2
     var labelRenderer
     main();
     render();
@@ -44,7 +63,7 @@ $(function () {
         //创建场景
         scene = new THREE.Scene();
         //创建相机
-        camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 1000)
+        camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 100000)
         camera.position.set(0, 150, 300)//相机位置
         camera.lookAt(new THREE.Vector3(0, 0, 0))//相机观看物体的位置
         //渲染整个场景
@@ -71,8 +90,14 @@ $(function () {
         plane()
         groundenvironment()
         cube()
-        traffic()
-        window.addEventListener("click", onDocumentMouseMove, false)
+        cube1()
+        cube2()
+        traffic(curve1)
+        traffic(curve2)
+        $(".clickrotate").click(function(){
+            onDocumentMouseMove()
+        })
+        window.addEventListener("click", tipFunc, false)
     }
     function render() {
         delta = clock.getDelta();
@@ -82,16 +107,28 @@ $(function () {
         var textureLoader = new THREE.TextureLoader();
         var texture = textureLoader.load("./img/cude2.png");
         texture.offset.x -= 0.06
-        if (progress > 1.0) {
-            circleP.position.set(-150, 2, -280);
-            progress = 0
+        if (progress1 > 1.0) {
+            circleP1.position.set(-150, 2, -280);
+            progress1 = 0
             //return;    //停留在管道末端,否则会一直跑到起点 循环再跑
         }
-        progress += 0.001; //0.0009;
-        if (curve) {
-            let point = curve.getPoint(progress);
-            if (point && point.x) {
-                circleP.position.set(point.x, point.y, point.z);
+        if (progress2 > 1.0) {
+            circleP2.position.set(-150, 2, -280);
+            progress2 = 0
+            //return;    //停留在管道末端,否则会一直跑到起点 循环再跑
+        }
+        progress1 += 0.001; //0.0009;
+        progress2 += 0.001; //0.0009;
+        if (curve1) {
+            let point1 = curve1.getPoint(progress1);
+            if (point1 && point1.x) {
+                circleP1.position.set(point1.x, point1.y, point1.z);
+            }
+        }
+        if (curve2) {
+            let point2 = curve2.getPoint(progress2);
+            if (point2 && point2.x) {
+                circleP2.position.set(point2.x, point2.y, point2.z);
             }
         }
     }
@@ -106,7 +143,7 @@ $(function () {
             scene.add(line);
 
             var line = new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: "rgba(38,55,84,1)", opacity: 1 }));
-            line.position.x = (i * 50) - 800;
+            line.position.x = (i * 50) - 1200;
             line.rotation.y = 90 * Math.PI / 180;
             scene.add(line);
         }
@@ -123,16 +160,23 @@ $(function () {
             plane.position.z = 0
             plane.rotateX(-Math.PI / 2)
             plane.rotateZ(Math.PI / 2)
-            plane.scale.set(3, 5, 2)
+            plane.scale.set(9, 10, 2)
             scene.add(plane);
         })
 
     }
     //车流
-
     function traffic() {
         //一条
-        var tubeGeometry2 = new THREE.TubeGeometry(curve, 100, 2, 50, false);
+        var tubeGeometry1 = new THREE.TubeGeometry(curve1, 100, 2, 50, false);
+        var tubeMaterial1 = new THREE.MeshPhongMaterial({
+            color: "rgb(45,245,216)",
+            transparent: true,
+            opacity: 1,
+        });
+        var tube1 = new THREE.Mesh(tubeGeometry1, tubeMaterial1);
+        scene.add(tube1);
+        var tubeGeometry2 = new THREE.TubeGeometry(curve2, 100, 2, 50, false);
         var tubeMaterial2 = new THREE.MeshPhongMaterial({
             color: "rgb(45,245,216)",
             transparent: true,
@@ -141,15 +185,19 @@ $(function () {
         var tube2 = new THREE.Mesh(tubeGeometry2, tubeMaterial2);
         scene.add(tube2);
         //物体
-        geometryP = new THREE.BoxGeometry(5, 5, 5);
-        var materialP = new THREE.MeshBasicMaterial({ color: 'rgb(165,244,7)' });
-        circleP = new THREE.Mesh(geometryP, materialP);
-        scene.add(circleP);
-        geometryP.rotateY(Math.PI / 2);
-        //circleP.position.set(-80, -40, 0);
+        geometryP1 = new THREE.BoxGeometry(5, 5, 5);
+        var materialP1 = new THREE.MeshBasicMaterial({ color: 'rgb(165,244,7)' });
+        circleP1 = new THREE.Mesh(geometryP1, materialP1);
+        scene.add(circleP1);
+        geometryP1.rotateY(Math.PI / 2);
+        geometryP2= new THREE.BoxGeometry(5, 5, 5);
+        var materialP2 = new THREE.MeshBasicMaterial({ color: 'rgb(165,244,7)' });
+        circleP2 = new THREE.Mesh(geometryP2, materialP2);
+        scene.add(circleP2);
+        geometryP2.rotateY(Math.PI / 2);
+       
     }
-
-    //建筑
+    //建筑1
     function cube() {
         for (let i = 0; i < 30; i++) {
             var loader = new THREE.TextureLoader();
@@ -175,33 +223,83 @@ $(function () {
             scene.add(buildtop1);
         })
         var loader = new THREE.TextureLoader();
-        loader.load("./img/cude2.png", (texture) => {
-            var geometry = new THREE.BoxGeometry(15, 5, 20);
-            var material = new THREE.MeshBasicMaterial({ color: 0x739783, map: texture });
-            buildtop2 = new THREE.Mesh(geometry, material);
-            buildtop2.position.x = 10
-            buildtop2.position.y = 5 + 31 * 5
-            buildtop2.position.z = -10
-            scene.add(buildtop2);
-        })
-        var loader = new THREE.TextureLoader();
-        loader.load("./img/cude2.png", (texture) => {
-            var geometry = new THREE.BoxGeometry(10, 5, 20);
-            var material = new THREE.MeshBasicMaterial({ color: 0x739783, map: texture });
-            buildtop3 = new THREE.Mesh(geometry, material);
-            buildtop3.position.x = 10
-            buildtop3.position.y = 5 + 32 * 5
-            buildtop3.position.z = -10
-            scene.add(buildtop3);
-        })
-        var loader = new THREE.TextureLoader();
         loader.load("./img/cude2.png", function (texture) {
-            var geometry = new THREE.ConeBufferGeometry(5, 10, 32);
+            var geometry = new THREE.ConeBufferGeometry(15, 10, 32);
             var material = new THREE.MeshBasicMaterial({ color: 0x739783, map: texture });
             buildtop4 = new THREE.Mesh(geometry, material);
             buildtop4.position.x = 10
-            buildtop4.position.y = 5 + 33 * 5
+            buildtop4.position.y = 5 + 31 * 5
             buildtop4.position.z = -10
+            scene.add(buildtop4);
+        })
+    }
+    function cube1() {
+        for (let i = 0; i < 30; i++) {
+            var loader = new THREE.TextureLoader();
+            loader.load("./img/cude2.png", (texture) => {
+                var geometry = new THREE.BoxGeometry(30, 5, 20);
+                var material = new THREE.MeshBasicMaterial({ color: 0x739783, map: texture });
+                buildArr1[i] = new THREE.Mesh(geometry, material);
+                buildArr1[i].position.x = 100
+                buildArr1[i].position.y = 5 + i * 5
+                buildArr1[i].position.z = -10
+                scene.add(buildArr1[i]);
+            })
+        }
+        //顶部
+        var loader = new THREE.TextureLoader();
+        loader.load("./img/cude2.png", (texture) => {
+            var geometry = new THREE.BoxGeometry(20, 5, 20);
+            var material = new THREE.MeshBasicMaterial({ color: 0x739783, map: texture });
+            buildtop1 = new THREE.Mesh(geometry, material);
+            buildtop1.position.x = 100
+            buildtop1.position.y = 5 + 30 * 5
+            buildtop1.position.z = -10
+            scene.add(buildtop1);
+        })
+        var loader = new THREE.TextureLoader();
+        loader.load("./img/cude2.png", function (texture) {
+            var geometry = new THREE.ConeBufferGeometry(15, 10, 32);
+            var material = new THREE.MeshBasicMaterial({ color: 0x739783, map: texture });
+            buildtop4 = new THREE.Mesh(geometry, material);
+            buildtop4.position.x = 100
+            buildtop4.position.y = 5 + 31 * 5
+            buildtop4.position.z = -10
+            scene.add(buildtop4);
+        })
+    }
+    function cube2() {
+        for (let i = 0; i < 30; i++) {
+            var loader = new THREE.TextureLoader();
+            loader.load("./img/cude2.png", (texture) => {
+                var geometry = new THREE.BoxGeometry(30, 5, 20);
+                var material = new THREE.MeshBasicMaterial({ color: 0x739783, map: texture });
+                buildArr2[i] = new THREE.Mesh(geometry, material);
+                buildArr2[i].position.x = 40
+                buildArr2[i].position.y = 5 + i * 5
+                buildArr2[i].position.z = 100
+                scene.add(buildArr2[i]);
+            })
+        }
+        //顶部
+        var loader = new THREE.TextureLoader();
+        loader.load("./img/cude2.png", (texture) => {
+            var geometry = new THREE.BoxGeometry(20, 5, 20);
+            var material = new THREE.MeshBasicMaterial({ color: 0x739783, map: texture });
+            buildtop1 = new THREE.Mesh(geometry, material);
+            buildtop1.position.x = 40
+            buildtop1.position.y = 5 + 30 * 5
+            buildtop1.position.z = 100
+            scene.add(buildtop1);
+        })
+        var loader = new THREE.TextureLoader();
+        loader.load("./img/cude2.png", function (texture) {
+            var geometry = new THREE.ConeBufferGeometry(15, 10, 32);
+            var material = new THREE.MeshBasicMaterial({ color: 0x739783, map: texture });
+            buildtop4 = new THREE.Mesh(geometry, material);
+            buildtop4.position.x = 40
+            buildtop4.position.y = 5 + 31 * 5
+            buildtop4.position.z = 100
             scene.add(buildtop4);
         })
     }
@@ -224,13 +322,13 @@ $(function () {
                     clearInterval(timer)
                 }
             }, 30)
-            for (var i = 0; i < 30; i++) {
-                buildArr[i].position.y = 5 + i * 5
-            }
+            // for (var i = 0; i < 30; i++) {
+            //     buildArr[i].position.y = 5 + i * 5
+            // }
 
 
         } else {
-            tipFunc()
+           
             $(".echarts_left").animate({ left: '-250px' })
             $(".echarts_right").animate({ right: '-250px' })
             var cameraz = 10;
@@ -246,9 +344,9 @@ $(function () {
                 }
             }, 30)
 
-            for (var i = 0; i < 30; i++) {
-                buildArr[i].position.y = 5 + i * 10
-            }
+            // for (var i = 0; i < 30; i++) {
+            //     buildArr[i].position.y = 5 + i * 10
+            // }
 
         }
 
@@ -293,8 +391,16 @@ $(function () {
             transparent: true,
         })
 
-        let rect = new THREE.Mesh(geometry1, material1)
-        rect.position.set(43, 100, 0)
-        scene.add(rect)
+        let rect1= new THREE.Mesh(geometry1, material1)
+        rect1.position.set(40, 100, -10)
+        scene.add(rect1)
+        let rect2 = new THREE.Mesh(geometry1, material1)
+        rect2.position.set(100, 100, -10)
+        scene.add(rect2)
+        let rect3 = new THREE.Mesh(geometry1, material1)
+        rect3.position.set(40, 100, 100)
+        scene.add(rect3)
+        
     }
+    
 })

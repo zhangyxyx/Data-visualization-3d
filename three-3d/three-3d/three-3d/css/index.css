@@ -50,7 +50,7 @@ body {
     height:400px
 }
 #bottom1{
-    height:200px
+    height:150px
 }
 #canvas{
     display:none
@@ -62,21 +62,24 @@ body {
     left:50%;
     margin-left:-300px;
     top:0px;
-    background:url('../img/header.png') no-repeat;
-    background-size:100% 100%;
     color:#fff;
     font-size:22px;
     text-align:center;
-    line-height:75px;
+    line-height:55px;
     font-weight:bold;
 }
 .leftheader{
-    background: rgba(42, 212, 236,.2);
+    background:url('../img/header3.png') no-repeat;
+    background-size:100% 100%;
     width: 100%;
     color: #fff;
     height: 60px;
     line-height: 55px;
-    box-shadow: 0px 0px 10px rgb(24,125,193)
+    box-shadow: 0px 0px 10px rgb(24,125,193);
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index:2;
 }
 .leftheader p{
     float: left;
@@ -125,4 +128,7 @@ body {
     background:url('../img/title.png') no-repeat;
     background-size:100% 100%;
     color:#fff; 
+}
+.clickrotate{
+    cursor:pointer;
 }
