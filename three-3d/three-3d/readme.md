@@ -71,6 +71,7 @@ function plane() {
 ## 6.建筑
 建筑用的是立方体，需要注意的是可以自己设置一个图片，然后将图片作为纹理贴到立方体上面来；
 根据移动立方体的位置，来拼合成建筑；
+建筑可以多种形状
 ```javascript
 var loader = new THREE.TextureLoader();
 loader.load("./img/cude1.png", (texture) => {
