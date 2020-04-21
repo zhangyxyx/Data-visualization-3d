@@ -152,6 +152,61 @@ if (curve) {
  window.addEventListener("click", onDocumentMouseMove, false)
 ```
 
+### 10.建筑信息
+将canvas转化为图片，将图片作为纹理放到几何体中
+```javascript
+ function tipFunc() {
+        //用canvas生成图片
+        let canvas = document.getElementById('canvas')
+        let ctx = canvas.getContext('2d')
+        canvas.width = 300
+        canvas.height = 300
+        //制作矩形
+        ctx.fillStyle = "rgba(4,47,106,0.8)";
+        ctx.fillRect(0, 0, 300, 300)
+        //设置文字
+        ctx.fillStyle = "#fff";
+        ctx.font = 'normal 18pt "楷体"'
+        ctx.fillText('模型介绍', 100, 20)
+        let textWord = '提示信息'
+        //文字换行
+        let len = parseInt(textWord.length / 10)
+        for (let i = 0; i < (len + 1); i++) {
+            let space = 10
+            if (i === len) {
+                space = textWord.length - len * 10
+            }
+            console.log('len+' + len, 'space+' + space)
+            let word = textWord.substr(i * 10, space)
+            ctx.fillText(word, 15, 60 * (i + 1))
+        }
+        //生成图片
+        let url = canvas.toDataURL('image/png');
+
+        //将图片构建到纹理中
+        let geometry1 = new THREE.PlaneGeometry(30, 30)
+        let texture = THREE.ImageUtils.loadTexture(url, null, function (t) { })
+
+        let material1 = new THREE.MeshBasicMaterial({
+            map: texture,
+            side: THREE.DoubleSide,
+            opacity: 1,
+            transparent: true,
+        })
+
+        let rect1= new THREE.Mesh(geometry1, material1)
+        rect1.position.set(40, 100, -10)
+        scene.add(rect1)
+        let rect2 = new THREE.Mesh(geometry1, material1)
+        rect2.position.set(100, 100, -10)
+        scene.add(rect2)
+        let rect3 = new THREE.Mesh(geometry1, material1)
+        rect3.position.set(40, 100, 100)
+        scene.add(rect3)
+        
+    }
+```
+
 # 四、相关资料
 Threejs：https://threejs.org/docs/#manual/zh/introduction/Creating-a-scene
 Echarts:https://www.echartsjs.com/zh/index.html
