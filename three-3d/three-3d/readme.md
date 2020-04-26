@@ -148,6 +148,7 @@ if (curve) {
 ```
 
 ## 9.事件
+这是给整体添加点击事件
 ```javascript
  window.addEventListener("click", onDocumentMouseMove, false)
 ```
