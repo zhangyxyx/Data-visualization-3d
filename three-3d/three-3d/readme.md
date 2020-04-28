@@ -155,7 +155,7 @@ if (curve) {
 
 ### 10.建筑信息
 将canvas转化为图片，将图片作为纹理放到几何体中，给多个建筑添加提示信息
-###
+###建筑
 ```javascript
  function tipFunc() {
         //用canvas生成图片
