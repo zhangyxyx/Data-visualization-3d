@@ -5,4 +5,4 @@ cesium主要实现地理3d(比如 地球)
 ## echarts-3d
 echarts目前也是关注3d地球的实现
 ## three-3d
-地球和3d城市
+地球和3d城市 room建筑模型
