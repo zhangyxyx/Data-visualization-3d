@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Monospace;
+
+            margin: 0px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <script type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="./js/three.js"></script>
+    <script src="./js/OrbitControls.js"></script>
+    <script src="./js/threeBSP.js"></script>
+    <script> type = "text/javascript"
+        main();
+        render();
+        var camera, scene, renderer, orbitControls, clock, delta;
+        function main() {
+            //创建元素画布
+            container = document.createElement('div')
+            document.body.appendChild(container)
+            //创建场景
+            scene = new THREE.Scene();
+            //创建相机
+            camera = new THREE.PerspectiveCamera(45, $(window).width() / $(window).height(), 1, 1000000);
+            camera.position.set(100, 400, 800)//相机位置
+
+            camera.lookAt(new THREE.Vector3(0, 0, 0))//相机观看物体的位置
+
+            scene.add(camera)
+
+            //渲染整个场景
+            renderer = new THREE.WebGLRenderer({ antiakuas: true })
+            renderer.setClearColor(new THREE.Color('rgb(255,255,255)'), 1)//整个画布的背景颜色
+            renderer.setSize(window.innerWidth, window.innerHeight)
+            renderer.shadowMapEnabled = true;
+            container.appendChild(renderer.domElement)
+
+
+            orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
+            orbitControls.target = new THREE.Vector3(0, 0, 0);//控制焦点
+            orbitControls.autoRotate = false;//将自动旋转关闭
+            clock = new THREE.Clock();//用于更新轨道控制器
+
+            var axesHelper = new THREE.AxesHelper(150);
+            scene.add(axesHelper);
+
+            //光源
+            var ambientLight = new THREE.AmbientLight(0x606060)//自然光
+            scene.add(ambientLight)
+            var spotLight = new THREE.SpotLight(0xffffff)
+            spotLight.position.set(300, 160, 85)
+            spotLight.castShadow = true
+            scene.add(spotLight)
+            plane()
+            build(-200, 150, 0, '1')
+            build(0, 150, 0, '1')
+            build(200, 150, 0, '1')
+            gallery()
+            //build(-200, 150, 0, '2')
+            porch(-200, 150, 0, '2')
+            build(0, 150, 0, '2')
+            build(200, 150, 0, '2')
+            //building()
+            //Furniture()
+            //wall()
+            //room()
+            //cube()
+            //sphere()
+            //cylinder()
+        }
+        function render() {
+            delta = clock.getDelta();
+            orbitControls.update(delta);
+            requestAnimationFrame(render);
+            renderer.render(scene, camera)
+        }
+        function plane() {
+            var planeGeo = new THREE.PlaneGeometry(1000, 700)
+            var planeMat = new THREE.MeshLambertMaterial({ color: 0x666666, wireframe: false })
+            var planeMesh = new THREE.Mesh(planeGeo, planeMat)
+            planeMesh.position.set(0, 0, 0)
+            planeMesh.rotateX(-Math.PI / 2)
+            planeMesh.receiveShadow = true
+
+            scene.add(planeMesh)
+        }
+        //建筑客厅
+        function building() {
+            var group = new THREE.Group();
+
+            var material = new THREE.MeshLambertMaterial({ color: 'rgb(241,199,97)' })
+            var material2 = new THREE.MeshLambertMaterial({ color: 'rgb(248,215,138)' })
+            var material3 = new THREE.MeshLambertMaterial({ color: 'rgb(249,175,42)' })
+            var material4 = new THREE.MeshLambertMaterial({ color: 'rgba(255,255,255,0)' })
+            var material5 = new THREE.MeshLambertMaterial({ color: 'rgb(0,122,204)' })
+            //底部
+            var bottom = new THREE.BoxGeometry(200, 200)
+            var bottomMesh = new THREE.Mesh(bottom, material)
+            bottomMesh.position.set(0, 0, 10)
+
+            //墙面
+            var left = new THREE.BoxGeometry(100, 200)
+            var leftMesh = new THREE.Mesh(left, material2)
+            leftMesh.position.set(-100, 0, 60)
+            leftMesh.rotateY(Math.PI / 2)
+
+
+            var left1 = new THREE.BoxGeometry(200, 4)
+            var left1Mesh = new THREE.Mesh(left1, material3)
+            left1Mesh.position.set(-98, 0, 12)
+            left1Mesh.rotateZ(Math.PI / 2)
+            left1Mesh.rotateX(-Math.PI / 2)
+            var left2 = new THREE.BoxGeometry(200, 4)
+            var left2Mesh = new THREE.Mesh(left2, material3)
+            left2Mesh.position.set(-98, 0, 80)
+            left2Mesh.rotateZ(Math.PI / 2)
+            left2Mesh.rotateX(-Math.PI / 2)
+
+            var left3 = new THREE.BoxGeometry(200, 4)
+            var left3Mesh = new THREE.Mesh(left3, material3)
+            left3Mesh.position.set(-98, 0, 108)
+            left3Mesh.rotateZ(Math.PI / 2)
+            left3Mesh.rotateX(Math.PI / 2)
+
+            var right = new THREE.BoxGeometry(100, 200)
+            var rightMesh = new THREE.Mesh(right, material2)
+            rightMesh.position.set(100, 0, 60)
+            rightMesh.rotateY(Math.PI / 2)
+
+
+            var right1 = new THREE.BoxGeometry(200, 4)
+            var right1Mesh = new THREE.Mesh(right1, material3)
+            right1Mesh.position.set(98, 0, 12)
+            right1Mesh.rotateZ(Math.PI / 2)
+            right1Mesh.rotateX(Math.PI / 2)
+            var right2 = new THREE.BoxGeometry(200, 4)
+            var right2Mesh = new THREE.Mesh(right2, material3)
+            right2Mesh.position.set(98, 0, 80)
+            right2Mesh.rotateZ(Math.PI / 2)
+            right2Mesh.rotateX(Math.PI / 2)
+            var right3 = new THREE.BoxGeometry(200, 4)
+            var right3Mesh = new THREE.Mesh(right3, material3)
+            right3Mesh.position.set(98, 0, 108)
+            right3Mesh.rotateZ(Math.PI / 2)
+            right3Mesh.rotateX(Math.PI / 2)
+
+            var font1 = new THREE.BoxGeometry(200, 4)
+            var font1Mesh = new THREE.Mesh(font1, material3)
+            font1Mesh.position.set(0, 98, 14)
+            font1Mesh.rotateX(Math.PI / 2)
+            var font2 = new THREE.BoxGeometry(200, 4)
+            var font2Mesh = new THREE.Mesh(font2, material3)
+            font2Mesh.position.set(0, 98, 80)
+            font2Mesh.rotateX(Math.PI / 2)
+            var font3 = new THREE.BoxGeometry(200, 4)
+            var font3Mesh = new THREE.Mesh(font3, material3)
+            font3Mesh.position.set(0, 98, 108)
+            font3Mesh.rotateX(Math.PI / 2)
+            var font4 = new THREE.BoxGeometry(100, 4)
+            var font4Mesh = new THREE.Mesh(font4, material3)
+            font4Mesh.position.set(-40, 98, 60)
+            font4Mesh.rotateX(Math.PI / 2)
+            font4Mesh.rotateZ(Math.PI / 2)
+            var font5 = new THREE.BoxGeometry(100, 4)
+            var font5Mesh = new THREE.Mesh(font5, material3)
+            font5Mesh.position.set(40, 98, 60)
+            font5Mesh.rotateX(Math.PI / 2)
+            font5Mesh.rotateZ(Math.PI / 2)
+
+            //窗户
+            var win1 = new THREE.BoxGeometry(40, 2)
+            var win1Mesh = new THREE.Mesh(win1, material5)
+            win1Mesh.position.set(-38, 98, 60)
+            win1Mesh.rotateX(Math.PI / 2)
+            win1Mesh.rotateZ(Math.PI / 2)
+            var win2 = new THREE.BoxGeometry(40, 2)
+            var win2Mesh = new THREE.Mesh(win2, material5)
+            win2Mesh.position.set(38, 98, 60)
+            win2Mesh.rotateX(Math.PI / 2)
+            win2Mesh.rotateZ(Math.PI / 2)
+            var win7 = new THREE.BoxGeometry(40, 2)
+            var win7Mesh = new THREE.Mesh(win7, material5)
+            win7Mesh.position.set(0, 98, 60)
+            win7Mesh.rotateX(Math.PI / 2)
+            win7Mesh.rotateZ(Math.PI / 2)
+            var win3 = new THREE.BoxGeometry(80, 2)
+            var win3Mesh = new THREE.Mesh(win3, material5)
+            win3Mesh.position.set(0, 98, 80)
+            win3Mesh.rotateX(Math.PI / 2)
+            var win4 = new THREE.BoxGeometry(80, 2)
+            var win4Mesh = new THREE.Mesh(win4, material5)
+            win4Mesh.position.set(0, 98, 40)
+            win4Mesh.rotateX(Math.PI / 2)
+            var win5 = new THREE.BoxGeometry(80, 2)
+            var win5Mesh = new THREE.Mesh(win5, material5)
+            win5Mesh.position.set(0, 98, 55)
+            win5Mesh.rotateX(Math.PI / 2)
+            var win6 = new THREE.BoxGeometry(80, 2)
+            var win6Mesh = new THREE.Mesh(win6, material5)
+            win6Mesh.position.set(0, 98, 68)
+            win6Mesh.rotateX(Math.PI / 2)
+
+            var font = new THREE.BoxGeometry(200, 100)
+            var fontMesh = new THREE.Mesh(font, material2)
+            fontMesh.position.set(0, 100, 60)
+            fontMesh.rotateX(Math.PI / 2)
+
+            var win = new THREE.BoxGeometry(80, 40)
+            var winMesh = new THREE.Mesh(win, material4)
+            winMesh.position.set(0, 100, 60)
+            winMesh.rotateX(Math.PI / 2)
+
+            //门
+            var before = new THREE.BoxGeometry(200, 100)
+            var beforeMesh = new THREE.Mesh(before, material3)
+            beforeMesh.position.set(0, -100, 60)
+            beforeMesh.rotateX(Math.PI / 2)
+            var door = new THREE.BoxGeometry(100, 70)
+            var doorMesh = new THREE.Mesh(door, material5)
+            doorMesh.position.set(15, -100, 45)
+            doorMesh.rotateX(Math.PI / 2)
+            //切割窗户
+            var result1 = fun(fontMesh, winMesh, 0, 100, 60)
+            var result2 = fun(beforeMesh, doorMesh, 0, -100, 60)
+
+            group.add(bottomMesh)
+            group.add(leftMesh)
+            group.add(left1Mesh)
+            group.add(left2Mesh)
+            group.add(left3Mesh)
+            group.add(rightMesh)
+            group.add(right1Mesh)
+            group.add(right2Mesh)
+            group.add(right3Mesh)
+            group.add(font1Mesh)
+            group.add(font2Mesh)
+            group.add(font3Mesh)
+            group.add(font4Mesh)
+            group.add(font5Mesh)
+            group.add(win1Mesh)
+            group.add(win2Mesh)
+            group.add(win3Mesh)
+            group.add(win4Mesh)
+            group.add(win5Mesh)
+            group.add(win6Mesh)
+            group.add(win7Mesh)
+            group.add(result1)
+            group.add(result2)
+
+            group.rotateX(-Math.PI / 2)
+            scene.add(group)
+        }
+        //建筑模型
+        function build(x, y, z, mark) {
+            var group = new THREE.Group();
+
+            var material = new THREE.MeshLambertMaterial({ color: 'rgb(241,199,97)' })
+            var material2 = new THREE.MeshLambertMaterial({ color: 'rgb(248,215,138)' })
+            var material3 = new THREE.MeshLambertMaterial({ color: 'rgb(249,175,42)' })
+            var material4 = new THREE.MeshLambertMaterial({ color: 'rgba(255,255,255,0)' })
+            var material5 = new THREE.MeshLambertMaterial({ color: 'rgb(0,122,204)' })
+            //底部
+            var bottom = new THREE.BoxGeometry(200, 200)
+            var bottomMesh = new THREE.Mesh(bottom, material)
+            bottomMesh.position.set(x, y, z)
+            //墙面
+            var left = new THREE.BoxGeometry(100, 200)
+            var leftMesh = new THREE.Mesh(left, material2)
+            leftMesh.position.set(x - 100, y, z + 50)
+            leftMesh.rotateY(Math.PI / 2)
+
+            var left1 = new THREE.BoxGeometry(200, 4)
+            var left1Mesh = new THREE.Mesh(left1, material3)
+            left1Mesh.position.set(x - 98, y, z + 5)
+            left1Mesh.rotateZ(Math.PI / 2)
+            left1Mesh.rotateX(-Math.PI / 2)
+            var left2 = new THREE.BoxGeometry(200, 4)
+            var left2Mesh = new THREE.Mesh(left2, material3)
+            left2Mesh.position.set(x - 98, y, z + 50)
+            left2Mesh.rotateZ(Math.PI / 2)
+            left2Mesh.rotateX(-Math.PI / 2)
+            var left3 = new THREE.BoxGeometry(200, 4)
+            var left3Mesh = new THREE.Mesh(left3, material3)
+            left3Mesh.position.set(x - 98, y, z + 88)
+            left3Mesh.rotateZ(Math.PI / 2)
+            left3Mesh.rotateX(Math.PI / 2)
+
+            var right = new THREE.BoxGeometry(100, 200)
+            var rightMesh = new THREE.Mesh(right, material2)
+            rightMesh.position.set(x + 100, y, z + 50)
+            rightMesh.rotateY(Math.PI / 2)
+
+            var right1 = new THREE.BoxGeometry(200, 4)
+            var right1Mesh = new THREE.Mesh(right1, material3)
+            right1Mesh.position.set(x + 98, y, z + 5)
+            right1Mesh.rotateZ(Math.PI / 2)
+            right1Mesh.rotateX(Math.PI / 2)
+            var right2 = new THREE.BoxGeometry(200, 4)
+            var right2Mesh = new THREE.Mesh(right2, material3)
+            right2Mesh.position.set(x + 98, y, z + 50)
+            right2Mesh.rotateZ(Math.PI / 2)
+            right2Mesh.rotateX(Math.PI / 2)
+            var right3 = new THREE.BoxGeometry(200, 4)
+            var right3Mesh = new THREE.Mesh(right3, material3)
+            right3Mesh.position.set(x + 98, y, z + 88)
+            right3Mesh.rotateZ(Math.PI / 2)
+            right3Mesh.rotateX(Math.PI / 2)
+
+
+            var font1 = new THREE.BoxGeometry(200, 4)
+            var font1Mesh = new THREE.Mesh(font1, material3)
+            font1Mesh.position.set(x, y + 98, z + 5)
+            font1Mesh.rotateX(Math.PI / 2)
+            var font2 = new THREE.BoxGeometry(200, 4)
+            var font2Mesh = new THREE.Mesh(font2, material3)
+            font2Mesh.position.set(x, y + 98, z + 50)
+            font2Mesh.rotateX(Math.PI / 2)
+            var font3 = new THREE.BoxGeometry(200, 4)
+            var font3Mesh = new THREE.Mesh(font3, material3)
+            font3Mesh.position.set(x, y + 98, z + 88)
+            font3Mesh.rotateX(Math.PI / 2)
+            var font4 = new THREE.BoxGeometry(100, 4)
+            var font4Mesh = new THREE.Mesh(font4, material3)
+            font4Mesh.position.set(x - 40, y + 98, z + 50)
+            font4Mesh.rotateX(Math.PI / 2)
+            font4Mesh.rotateZ(Math.PI / 2)
+            var font5 = new THREE.BoxGeometry(100, 4)
+            var font5Mesh = new THREE.Mesh(font5, material3)
+            font5Mesh.position.set(x + 40, y + 98, z + 50)
+            font5Mesh.rotateX(Math.PI / 2)
+            font5Mesh.rotateZ(Math.PI / 2)
+
+            //窗户
+            var win1 = new THREE.BoxGeometry(40, 2)
+            var win1Mesh = new THREE.Mesh(win1, material5)
+            win1Mesh.position.set(x - 38, y + 98, z + 50)
+            win1Mesh.rotateX(Math.PI / 2)
+            win1Mesh.rotateZ(Math.PI / 2)
+            var win2 = new THREE.BoxGeometry(40, 2)
+            var win2Mesh = new THREE.Mesh(win2, material5)
+            win2Mesh.position.set(x + 38, y + 98, z + 50)
+            win2Mesh.rotateX(Math.PI / 2)
+            win2Mesh.rotateZ(Math.PI / 2)
+            var win7 = new THREE.BoxGeometry(40, 2)
+            var win7Mesh = new THREE.Mesh(win7, material5)
+            win7Mesh.position.set(x, y + 98, z + 50)
+            win7Mesh.rotateX(Math.PI / 2)
+            win7Mesh.rotateZ(Math.PI / 2)
+            var win3 = new THREE.BoxGeometry(80, 2)
+            var win3Mesh = new THREE.Mesh(win3, material5)
+            win3Mesh.position.set(x, y + 98, z + 80)
+            win3Mesh.rotateX(Math.PI / 2)
+            var win4 = new THREE.BoxGeometry(80, 2)
+            var win4Mesh = new THREE.Mesh(win4, material5)
+            win4Mesh.position.set(x, y + 98, z + 40)
+            win4Mesh.rotateX(Math.PI / 2)
+            var win5 = new THREE.BoxGeometry(80, 2)
+            var win5Mesh = new THREE.Mesh(win5, material5)
+            win5Mesh.position.set(x, y + 98, z + 55)
+            win5Mesh.rotateX(Math.PI / 2)
+            var win6 = new THREE.BoxGeometry(80, 2)
+            var win6Mesh = new THREE.Mesh(win6, material5)
+            win6Mesh.position.set(x, y + 98, z + 68)
+            win6Mesh.rotateX(Math.PI / 2)
+
+            var font = new THREE.BoxGeometry(200, 100)
+            var fontMesh = new THREE.Mesh(font, material2)
+            fontMesh.position.set(x, y + 98, z + 50)
+            fontMesh.rotateX(Math.PI / 2)
+
+            var win = new THREE.BoxGeometry(80, 40)
+            var winMesh = new THREE.Mesh(win, material4)
+            winMesh.position.set(x, y + 100, z + 50)
+            winMesh.rotateX(Math.PI / 2)
+
+            //门
+            var before = new THREE.BoxGeometry(200, 100)
+            var beforeMesh = new THREE.Mesh(before, material3)
+            beforeMesh.position.set(x, y - 100, z + 50)
+            beforeMesh.rotateX(Math.PI / 2)
+            var door = new THREE.BoxGeometry(100, 70)
+            var doorMesh = new THREE.Mesh(door, material5)
+            doorMesh.position.set(x + 15, y - 100, z + 45)
+            doorMesh.rotateX(Math.PI / 2)
+
+            //切割窗户
+            var result1 = fun(fontMesh, winMesh, x, y + 100, z + 50)
+            var result2 = fun(beforeMesh, doorMesh, x, y - 100, z + 50)
+
+            group.add(bottomMesh)
+            group.add(leftMesh)
+            group.add(left1Mesh)
+            group.add(left2Mesh)
+            group.add(left3Mesh)
+            group.add(rightMesh)
+            group.add(right1Mesh)
+            group.add(right2Mesh)
+            group.add(right3Mesh)
+            group.add(font1Mesh)
+            group.add(font2Mesh)
+            group.add(font3Mesh)
+            group.add(font4Mesh)
+            group.add(font5Mesh)
+            group.add(win1Mesh)
+            group.add(win2Mesh)
+            group.add(win3Mesh)
+            group.add(win4Mesh)
+            group.add(win5Mesh)
+            group.add(win6Mesh)
+            group.add(win7Mesh)
+            group.add(result1)
+            group.add(result2)
+
+            if (mark === '1') {
+                group.rotateX(-Math.PI / 2)
+            } else {
+                group.rotateX(-Math.PI / 2)
+                group.rotateZ(Math.PI)
+                //group.rotateX(Math.PI)
+            }
+
+            scene.add(group)
+        }
+        //长廊
+        function gallery() {
+            var material = new THREE.MeshLambertMaterial({ color: 'rgb(241,199,97)' })
+            var gallery1 = new THREE.BoxGeometry(700, 100)
+            var gallery1Mesh = new THREE.Mesh(gallery1, material)
+            gallery1Mesh.position.set(40, 0, 0)
+            gallery1Mesh.rotateX(-Math.PI / 2)
+            scene.add(gallery1Mesh)
+        }
+        //门廊
+        function porch(x, y, z) {
+            var material = new THREE.MeshLambertMaterial({ color: 'rgb(241,199,97)' })
+            //底部
+            var porch1 = new THREE.BoxGeometry(200, 200)
+            var porch1Mesh = new THREE.Mesh(porch1, material)
+            porch1Mesh.position.set(x, y, z)
+            //墙面
+            var porch2 = new THREE.BoxGeometry(100, 200)
+            var porch2Mesh = new THREE.Mesh(porch2, material)
+            porch2Mesh.position.set(x - 100, y, z + 50)
+            porch2Mesh.rotateY(Math.PI / 2)
+            scene.add(porch1Mesh)
+            //scene.add(porch2Mesh)
+        }
+        //切割窗户们
+        function fun(fontMesh, winMesh, x, y, z) {
+            var material = new THREE.MeshLambertMaterial({ color: 'rgb(241,199,97)' })
+            var sphere1BSP = new ThreeBSP(fontMesh)
+            var cubeBSP = new ThreeBSP(winMesh)
+            resultBSP = sphere1BSP.subtract(cubeBSP)//设置差集
+            result = resultBSP.toMesh()//从BSP对象内获取到处理完后的mesh模型数据
+            result.geometry.computeFaceNormals()
+            result.geometry.computeVertexNormals()
+            result.material = material;
+            result.position.set(x, y, z)
+            return result
+            //scene.add(result)
+        }
+        //家具
+        function Furniture() {
+            var group = new THREE.Group();
+
+            var material = new THREE.MeshLambertMaterial({ color: 'rgb(179,84,84)' })
+            var material2 = new THREE.MeshLambertMaterial({ color: 'rgb(241,199,97)' })
+            //柜子
+            var cabinet = new THREE.BoxBufferGeometry(20, 100, 60)
+            var cabinetMesh = new THREE.Mesh(cabinet, material)
+            cabinetMesh.position.set(-80, 0, 40)
+            scene.add(cabinetMesh)
+            //桌子
+            var table = new THREE.BoxBufferGeometry(70, 80, 5)
+            var tableMesh = new THREE.Mesh(table, material)
+            tableMesh.position.set(0, 0, 30)
+
+            var table1 = new THREE.BoxBufferGeometry(4, 4, 20)
+            var table1Mesh = new THREE.Mesh(table1, material)
+            table1Mesh.position.set(-30, 30, 20)
+
+            var table2 = new THREE.BoxBufferGeometry(4, 4, 20)
+            var table2Mesh = new THREE.Mesh(table2, material)
+            table2Mesh.position.set(30, 30, 20)
+
+            var table3 = new THREE.BoxBufferGeometry(4, 4, 20)
+            var table3Mesh = new THREE.Mesh(table3, material)
+            table3Mesh.position.set(-30, -30, 20)
+
+            var table4 = new THREE.BoxBufferGeometry(4, 4, 20)
+            var table4Mesh = new THREE.Mesh(table4, material)
+            table4Mesh.position.set(30, -30, 20)
+
+            //电视
+            var tev1 = new THREE.BoxBufferGeometry(30, 30, 30)
+            var tev1Mesh = new THREE.Mesh(tev1, material2)
+            tev1Mesh.position.set(80, -70, 20)
+            var tev2 = new THREE.BoxBufferGeometry(10, 30, 30)
+            var tev2Mesh = new THREE.Mesh(tev2, material2)
+            tev2Mesh.rotateZ(Math.PI / 3)
+            tev2Mesh.position.set(80, -70, 50)
+
+
+            group.add(cabinetMesh);
+            group.add(tableMesh);
+            group.add(table1Mesh);
+            group.add(table2Mesh);
+            group.add(table3Mesh);
+            group.add(table4Mesh);
+            group.add(tev1Mesh);
+            group.add(tev2Mesh);
+
+            group.rotateX(-Math.PI / 2)
+            scene.add(group)
+
+        }
+
+    </script>
+</body>
+
+</html>
