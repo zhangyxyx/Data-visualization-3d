@@ -9,4 +9,4 @@ echarts目前也是关注3d地球的实现
 
 ## 注意
 一些地图和几何体的实现，可以参考 https://github.com/zhangyxyx/three-project
-模型
+模型 3dmax
