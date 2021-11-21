@@ -7,4 +7,4 @@ three实现智慧城市
 房屋3D
 
 注意：
-1. 光晕
+1. 光晕 EffectComposer
