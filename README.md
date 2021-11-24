@@ -9,4 +9,4 @@ three实现3Dd的一些东西 地球和3d城市 room建筑模型
 
 ## 注意
 一些地图和几何体的实现，可以参考 https://github.com/zhangyxyx/three-project
-模型 3dmax
+模型用3dmax加上vray
