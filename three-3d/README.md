@@ -9,4 +9,4 @@ three实现智慧城市
 注意：
 1. 光晕 EffectComposer
 2. 模型 3dmax vray
-3. 
+3. bloom
