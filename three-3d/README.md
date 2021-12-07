@@ -10,3 +10,4 @@ three实现智慧城市
 1. 光晕 EffectComposer
 2. 模型 3dmax vray
 3. bloom
+4. 扫光
