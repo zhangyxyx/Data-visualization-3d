@@ -11,3 +11,4 @@ three实现智慧城市
 2. 模型 3dmax vray
 3. bloom
 4. 扫光
+5. buildings
