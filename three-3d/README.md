@@ -15,3 +15,4 @@ three实现智慧城市
 4. 扫光
 5. buildings
 6. realitycapture
+7. 3dmax
