@@ -14,5 +14,5 @@ three实现智慧城市
 3. bloom
 4. 扫光
 5. buildings
-6. realitycapture
+6. realitycapture 照片转模型
 7. 3dmax
